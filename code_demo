@@ -13,9 +13,13 @@ cout = 0
 x = 0
 y = 0
 
+sch = 0
+
+
 pl_hp = 100
 
 hp_txt = pygame.font.SysFont('C:/Users/maksy/tip_game/fonts/OFL.txt', 48)
+txt = pygame.font.SysFont('C:/Users/maksy/tip_game/fonts/OFL.txt', 20)
 
 count = 0
 
@@ -54,12 +58,21 @@ en_x = randint(0,1024)
 en_y = randint(0,1024)
 
 
+    
+yb = txt.render('Увернулся!',True,(255,255,255))
+
+
 gun_x = pl_x
 gun_y = pl_y
 
 game = True
 
 while game:
+
+    sh = randint(0,1)
+
+    yb_x = pl_x + 10
+    yb_y = pl_y - 100
 
     pl_hp_sc = hp_txt.render(f'Hp player:{pl_hp}',True,(255,255,255))
     en_hp_sc = hp_txt.render(f'Hp:{en_hp}',True,(255,255,255))
@@ -78,6 +91,9 @@ while game:
     if key!=[pygame.K_w] or key != [pygame.K_s] or key!=[pygame.K_a] and key!=[pygame.K_d]:
         screen.blit(pl_s[0],(pl_x,pl_y))
 
+        if sch == 1:
+            screen.blit(yb,(yb_x,yb_y))
+
     gun_rect = gun.get_rect(center = (gun_x,gun_y))
     en_rect = en.get_rect(center = (en_x,en_y))
     pl_rect = pl_w[0].get_rect(center = (pl_x,pl_y))
@@ -87,7 +103,15 @@ while game:
 
 
     if gun_rect.colliderect(en_rect):
-        en_hp -= 5
+
+        if sh == 0:
+            en_hp -= 5
+        
+        if sh == 1:
+            sch = 1
+            
+        else:
+            sch = 0
 
 
     if key[pygame.K_w]:
@@ -100,26 +124,32 @@ while game:
         screen.blit(en_kl_sc,(200,12))
         screen.blit(pl_hp_sc,(500,12))
 
+        if sch == 1:
+            screen.blit(yb,(yb_x,yb_y))
+
         if count == 1:
             screen.blit(gun,(gun_x,gun_y))
 
     if key[pygame.K_r]:
         count = 1
-
+    
         if key[pygame.K_d]:
                 if gun_x < 1000 or gun_x >-20:
                     gun_x -= 15
+                    screen.blit(gun,(gun_x,gun_y))
         elif key[pygame.K_a]:
                 if gun_x < 1000 or gun_x >-20:
                     gun_x += 15
+                    screen.blit(gun,(gun_x,gun_y))
         if gun_y <1000 or gun_y > -20:
             if key[pygame.K_s]:
                 gun_y -= 15
+                screen.blit(gun,(gun_x,gun_y))
             elif key[pygame.K_w]:
                 gun_y += 15
             screen.blit(gun,(gun_x,gun_y))
     else:
-        count = 0
+        
         gun_x = pl_x
         gun_y = pl_y
 
@@ -159,6 +189,9 @@ while game:
         screen.blit(en_kl_sc,(200,12))
         screen.blit(pl_hp_sc,(500,12))
 
+        if sch == 1:
+            screen.blit(yb,(yb_x,yb_y))
+
         if count == 1:
             screen.blit(gun,(gun_x,gun_y))
 
@@ -172,6 +205,9 @@ while game:
         screen.blit(en_hp_sc,(12,12))
         screen.blit(en_kl_sc,(200,12))
         screen.blit(pl_hp_sc,(500,12))
+
+        if sch == 1:
+            screen.blit(yb,(yb_x,yb_y))
 
         if count == 1:
             screen.blit(gun,(gun_x,gun_y))
@@ -188,6 +224,9 @@ while game:
         screen.blit(en_kl_sc,(200,12))
         screen.blit(pl_hp_sc,(500,12))
 
+        if sch == 1:
+            screen.blit(yb,(yb_x,yb_y))
+
         if count == 1:
             screen.blit(gun,(gun_x,gun_y))
 
@@ -201,6 +240,11 @@ while game:
     elif pl_y >= 910:
         pl_y = 890
 
+    
+
+
+        
+        
 
     if pl_hp <= 0:
         pl_x=520
